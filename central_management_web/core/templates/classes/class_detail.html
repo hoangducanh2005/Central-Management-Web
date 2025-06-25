@@ -85,7 +85,7 @@
                                 <td>{{ enroll.enrollment_date }}</td>
                                 <td>
                                     <button type="button" class="btn btn-sm btn-info me-1" data-bs-toggle="modal" data-bs-target="#studentDetailModal{{ enroll.student.student_id }}">
-                                        <i class="fas fa-eye"></i>
+                                        <i class="fas fa-eye"></i> Chi tiết
                                     </button>
                                     <form method="post" action="{% url 'core:class_detail' class_obj.class_id %}" class="d-inline">
                                         {% csrf_token %}
@@ -240,38 +240,54 @@
                         <p><strong>Họ tên:</strong> {{ enroll.student.full_name }}</p>
                         <p><strong>Email:</strong> {{ enroll.student.email }}</p>
                         <p><strong>Số điện thoại:</strong> {{ enroll.student.sdt }}</p>
-                        <p><strong>Ngày sinh:</strong> {{ enroll.student.ngay_sinh }}</p>
-                        <p><strong>Giới tính:</strong> {{ enroll.student.gioi_tinh }}</p>
-                        <p><strong>Địa chỉ:</strong> {{ enroll.student.dia_chi }}</p>
+                        <p><strong>Ngày sinh:</strong> {{ enroll.student.birth_day }}</p>
+                        <p><strong>Giới tính:</strong> {% if enroll.student.gender == 'M' %}Nam{% else %}Nữ{% endif %}</p>
+                        <p><strong>Địa chỉ:</strong> {{ enroll.student.address }}</p>
                     </div>
                     <div class="col-md-6">
-                        <h6 class="mb-3">Điểm số</h6>
+                        <h6 class="mb-3">Điểm số hiện tại</h6>
+                        <div class="mb-3 p-3 bg-light rounded">
+                            <div class="row">
+                                <div class="col-6">
+                                    <p class="mb-1"><strong>Minitest 1:</strong> {% if enroll.minitest1 %}{{ enroll.minitest1 }}{% else %}<em class="text-muted">Chưa có</em>{% endif %}</p>
+                                    <p class="mb-1"><strong>Minitest 2:</strong> {% if enroll.minitest2 %}{{ enroll.minitest2 }}{% else %}<em class="text-muted">Chưa có</em>{% endif %}</p>
+                                    <p class="mb-1"><strong>Minitest 3:</strong> {% if enroll.minitest3 %}{{ enroll.minitest3 }}{% else %}<em class="text-muted">Chưa có</em>{% endif %}</p>
+                                </div>
+                                <div class="col-6">
+                                    <p class="mb-1"><strong>Minitest 4:</strong> {% if enroll.minitest4 %}{{ enroll.minitest4 }}{% else %}<em class="text-muted">Chưa có</em>{% endif %}</p>
+                                    <p class="mb-1"><strong>Điểm giữa kỳ:</strong> {% if enroll.midterm %}{{ enroll.midterm }}{% else %}<em class="text-muted">Chưa có</em>{% endif %}</p>
+                                    <p class="mb-1"><strong>Điểm cuối kỳ:</strong> {% if enroll.final_test %}{{ enroll.final_test }}{% else %}<em class="text-muted">Chưa có</em>{% endif %}</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h6 class="mb-3">Cập nhật điểm</h6>
                         <form method="post" action="{% url 'core:class_detail' class_obj.class_id %}">
                             {% csrf_token %}
                             <input type="hidden" name="update_scores" value="{{ enroll.student.student_id }}">
                             <div class="mb-3">
-                                <label class="form-label">Minitest 1</label>
-                                <input type="number" step="0.01" class="form-control" name="minitest1" value="{{ enroll.minitest1|default:'' }}">
+                                <label class="form-label">Minitest 1 (0-10)</label>
+                                <input type="number" step="0.01" min="0" max="10" class="form-control" name="minitest1" value="{{ enroll.minitest1|default:'' }}" placeholder="Nhập điểm (0-10)">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Minitest 2</label>
-                                <input type="number" step="0.01" class="form-control" name="minitest2" value="{{ enroll.minitest2|default:'' }}">
+                                <label class="form-label">Minitest 2 (0-10)</label>
+                                <input type="number" step="0.01" min="0" max="10" class="form-control" name="minitest2" value="{{ enroll.minitest2|default:'' }}" placeholder="Nhập điểm (0-10)">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Minitest 3</label>
-                                <input type="number" step="0.01" class="form-control" name="minitest3" value="{{ enroll.minitest3|default:'' }}">
+                                <label class="form-label">Minitest 3 (0-10)</label>
+                                <input type="number" step="0.01" min="0" max="10" class="form-control" name="minitest3" value="{{ enroll.minitest3|default:'' }}" placeholder="Nhập điểm (0-10)">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Minitest 4</label>
-                                <input type="number" step="0.01" class="form-control" name="minitest4" value="{{ enroll.minitest4|default:'' }}">
+                                <label class="form-label">Minitest 4 (0-10)</label>
+                                <input type="number" step="0.01" min="0" max="10" class="form-control" name="minitest4" value="{{ enroll.minitest4|default:'' }}" placeholder="Nhập điểm (0-10)">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Điểm giữa kỳ</label>
-                                <input type="number" step="0.01" class="form-control" name="midterm" value="{{ enroll.midterm|default:'' }}">
+                                <label class="form-label">Điểm giữa kỳ (0-10)</label>
+                                <input type="number" step="0.01" min="0" max="10" class="form-control" name="midterm" value="{{ enroll.midterm|default:'' }}" placeholder="Nhập điểm (0-10)">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Điểm cuối kỳ</label>
-                                <input type="number" step="0.01" class="form-control" name="final" value="{{ enroll.final|default:'' }}">
+                                <label class="form-label">Điểm cuối kỳ (0-10)</label>
+                                <input type="number" step="0.01" min="0" max="10" class="form-control" name="final_test" value="{{ enroll.final_test|default:'' }}" placeholder="Nhập điểm (0-10)">
                             </div>
                             <div class="text-end">
                                 <button type="submit" class="btn btn-primary">Cập nhật điểm</button>

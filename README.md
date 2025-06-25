@@ -39,9 +39,9 @@ Central-Management-Web là hệ thống quản lý trung tâm toán học, hỗ 
 ### Sử dụng PostgreSQL (tuỳ chọn)
 1. Cài đặt PostgreSQL và tạo database mới, ví dụ:
    ```sql
-   CREATE DATABASE central_management;
+   CREATE DATABASE central_management_db;
    CREATE USER central_user WITH PASSWORD 'yourpassword';
-   GRANT ALL PRIVILEGES ON DATABASE central_management TO central_user;
+   GRANT ALL PRIVILEGES ON DATABASE central_management_db TO central_user;
    ```
 2. Cập nhật file `central_management_web/central_management_web/settings.py`:
    ```python
